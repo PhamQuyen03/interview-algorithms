@@ -1,5 +1,7 @@
 export const ROWS = 8;
 export const COLS = 8;
+export const WATER = 0;
+export const LAND = 1;
 
 export const ISLAND_COLORS = [
   "bg-emerald-500",
@@ -27,4 +29,4 @@ export const ISLAND_TEXT_COLORS = [
   "text-teal-600 dark:text-teal-400",
 ] as const;
 
-export type CellState = "water" | "land" | number;
+export type CellState = number;
