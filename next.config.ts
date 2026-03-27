@@ -2,18 +2,9 @@ import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
 	output: "export",
+	basePath: "/interview-algorithms",
 	images: {
-		localPatterns: [
-			{
-				pathname: "/images/**",
-			},
-		],
-		remotePatterns: [
-			{
-				protocol: "https",
-				hostname: "phamquyen03.github.io",
-			},
-		],
+		unoptimized: true,
 	},
 };
 
