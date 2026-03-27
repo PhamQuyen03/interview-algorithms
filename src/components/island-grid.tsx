@@ -30,8 +30,10 @@ const IslandGrid = () => {
 	const [grid, setGrid] = useState<CellState[][]>(createEmptyGrid);
 	const [islandCount, setIslandCount] = useState<number | null>(null);
 	const [islandCoords, setIslandCoords] = useState<[number, number][][]>([]);
+	const [showLabels, setShowLabels] = useState(false);
 
 	const toggleCell = (r: number, c: number) => {
+		setShowLabels(true);
 		setIslandCount(null);
 		setIslandCoords([]);
 		setGrid((prev) => {
@@ -43,12 +45,14 @@ const IslandGrid = () => {
 
 	const reset = () => {
 		setGrid(createEmptyGrid());
+		setShowLabels(false);
 		setIslandCount(null);
 		setIslandCoords([]);
 	};
 
 	const randomize = () => {
 		setGrid(generateRandomGrid());
+		setShowLabels(true);
 		setIslandCount(null);
 		setIslandCoords([]);
 	};
@@ -111,6 +115,11 @@ const IslandGrid = () => {
 		return "";
 	};
 
+	const getCellLabel = (cell: CellState): string => {
+		if (cell === WATER) return "0";
+		return "1";
+	};
+
 	return (
 		<section className="space-y-5">
 			<h2 className="text-2xl font-bold text-zinc-900 dark:text-zinc-100">
@@ -132,11 +141,16 @@ const IslandGrid = () => {
 							key={`${r}-${c}`}
 							onClick={() => toggleCell(r, c)}
 							className={cn(
-								"size-10 rounded-sm border border-zinc-300 dark:border-zinc-600 transition-colors duration-150 hover:opacity-80 cursor-pointer",
+								"size-10 rounded-sm border border-zinc-300 dark:border-zinc-600 transition-colors duration-150 hover:opacity-80 cursor-pointer text-xs font-bold flex items-center justify-center",
 								getCellClass(cell),
+								cell === WATER
+									? "text-blue-500 dark:text-blue-400"
+									: "text-white",
 							)}
 							aria-label={`Ô ${r},${c}: ${cell === WATER ? "nước" : "đất"}`}
-						/>
+						>
+							{showLabels ? getCellLabel(cell) : null}
+						</button>
 					)),
 				)}
 			</div>
@@ -200,11 +214,11 @@ const IslandGrid = () => {
 			<div className="flex flex-wrap gap-3 text-xs text-zinc-500 dark:text-zinc-400">
 				<span className="flex items-center gap-1.5">
 					<span className="inline-block size-3 rounded-sm bg-blue-200 dark:bg-blue-900" />
-					Nước
+					Nước (0)
 				</span>
 				<span className="flex items-center gap-1.5">
 					<span className="inline-block size-3 rounded-sm bg-green-500" />
-					Đất
+					Đất (1)
 				</span>
 				<span className="flex items-center gap-1.5">
 					<span className="inline-block size-3 rounded-sm bg-emerald-500" />
